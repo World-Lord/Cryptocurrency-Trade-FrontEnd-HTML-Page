@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Возвращена полная и рабочая ссылка на CSS стили оформления -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -14,7 +13,6 @@
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
         
-        /* Стилизация адаптивного контейнера для твоей модели */
         .sketchfab-embed-wrapper {
             position: relative;
             padding-bottom: 56.25%; /* 16:9 */
@@ -24,7 +22,8 @@
             border: 1px solid #2f3b50;
             border-radius: 6px;
             margin-top: 25px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            background: #11151c;
         }
         .sketchfab-embed-wrapper iframe {
             position: absolute;
@@ -33,6 +32,23 @@
             width: 100%;
             height: 100%;
             border: 0;
+        }
+        .btn-3d {
+            display: block;
+            text-align: center;
+            background-color: #2f3b50;
+            color: #e4e7eb;
+            border: 1px solid #ff9900;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+        .btn-3d:hover {
+            background-color: #ff9900;
+            color: #111;
         }
     </style>
 </head>
@@ -53,13 +69,15 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Безопасный эмбед твоей 3D-модели Microphone Rebellion -->
+            <!-- Альтернативный плеер плейлистов для обхода блокировок -->
             <div class="sketchfab-embed-wrapper"> 
                 <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
-                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                    <a href="https://sketchfab.com/3d-models/microphone-rebellion-924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com/kcoolrush" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-                </p>
             </div>
+
+            <!-- Кнопка-запасной вариант для тех, у кого нет VPN -->
+            <a href="https://sketchfab.com" target="_blank" class="btn-3d">
+                📦 Открыть интерактивную 3D модель в новом окне (нужен VPN)
+            </a>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
                 <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
