@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
+    <!-- Возвращена полная и рабочая ссылка на CSS стили оформления -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -26,8 +26,7 @@
             margin-top: 25px;
             margin-bottom: 10px;
         }
-        /* Стили для контейнера, в который JS развернет плеер */
-        #sketchfab-container {
+        .sketchfab-embed-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -36,8 +35,6 @@
             border: 0;
         }
     </style>
-    <!-- Подключение официального JS-загрузчика Sketchfab, который обходит ограничения cross-origin фреймов -->
-    <script type="text/javascript" src="https://sketchfab.com"></script>
 </head>
 <body>
     <main class="container" style="margin-top: 5%;">
@@ -56,39 +53,18 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Вместо проблемного iframe теперь используется div, защищенный от пустых экранов -->
+            <!-- ИСПРАВЛЕНО: Оригинальный iframe с параметрами сброса блокировки лимитов (?autostart=1&prevent_keep_alive=1&v=2026) -->
             <div class="sketchfab-embed-wrapper"> 
-                <div id="sketchfab-container"></div>
+                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
+                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
+                    <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                </p>
             </div>
-            <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-            </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
                 <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
             </footer>
         </article>
     </main>
-
-    <!-- Скрипт автоматической и безопасной инициализации плеера -->
-    <script type="text/javascript">
-        const targetContainer = document.getElementById('sketchfab-container');
-        const modelUid = '924db06533b0466fb21831c50e227c50';
-        const sketchfabClient = new Sketchfab(targetContainer);
-
-        sketchfabClient.init(modelUid, {
-            success: function onSuccess(api) {
-                api.start();
-            },
-            error: function onError() {
-                console.error('Не удалось загрузить 3D-компонент.');
-            },
-            autostart: 1,
-            preload: 1,
-            ui_controls: 1,
-            ui_infos: 0,
-            transparent: 1
-        });
-    </script>
 </body>
 </html>
