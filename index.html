@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
+    <!-- Рабочая ссылка на CSS стили оформления Pico.css -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -25,8 +25,10 @@
             border-radius: 6px;
             margin-top: 25px;
             margin-bottom: 10px;
+            background-color: #11151c;
         }
-        .sketchfab-embed-wrapper iframe {
+        /* Новый контейнер подгрузки вместо iframe */
+        #sketchfab-target {
             position: absolute;
             top: 0;
             left: 0;
@@ -35,6 +37,8 @@
             border: 0;
         }
     </style>
+    <!-- Подключаем официальный клиент Sketchfab для безопасной инициализации -->
+    <script type="text/javascript" src="https://sketchfab.com"></script>
 </head>
 <body>
     <main class="container" style="margin-top: 5%;">
@@ -53,25 +57,9 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Фрейм теперь генерируется динамически с уникальным cache-buster токеном времени -->
-            <div class="sketchfab-embed-wrapper" id="embedWrapper"> 
-                <!-- Исполняемый JS-скрипт сформирует iframe с уникальным адресом здесь -->
-                <script>
-                    const wrapper = document.getElementById('embedWrapper');
-                    const iframe = document.createElement('iframe');
-                    iframe.title = "Microphone Rebellion";
-                    iframe.frameBorder = "0";
-                    iframe.allowFullscreen = true;
-                    iframe.setAttribute('mozallowfullscreen', 'true');
-                    iframe.setAttribute('webkitallowfullscreen', 'true');
-                    iframe.allow = "autoplay; fullscreen; xr-spatial-tracking";
-                    
-                    // Добавляем к ссылке текущую метку времени, чтобы Cloudflare и Sketchfab не выдавали старую заблокированную сессию
-                    const timestamp = new Date().getTime();
-                    iframe.src = `https://sketchfab.com{timestamp}`;
-                    
-                    wrapper.appendChild(iframe);
-                </script>
+            <!-- ИСПРАВЛЕНО: Никаких iframe в верстке, только чистый блок для динамического рендеринга -->
+            <div class="sketchfab-embed-wrapper"> 
+                <div id="sketchfab-target"></div>
             </div>
             <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
                 <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
@@ -82,5 +70,30 @@
             </footer>
         </article>
     </main>
+
+    <!-- Скрипт инициализации модели с автоматическим cache-buster -->
+    <script type="text/javascript">
+        const target = document.getElementById('sketchfab-target');
+        const modelUid = '924db06533b0466fb21831c50e227c50';
+        const client = new Sketchfab(target);
+
+        client.init(modelUid, {
+            success: function onSuccess(api) {
+                api.start();
+            },
+            error: function onError() {
+                console.error('Ошибка загрузки 3D плеера.');
+            },
+            autostart: 1,
+            preload: 1,
+            ui_controls: 1,
+            ui_infos: 0,
+            /* Добавляем случайный параметр, чтобы полностью сбросить кэш сессии */
+            params: {
+                id: modelUid,
+                cb: new Date().getTime()
+            }
+        });
+    </script>
 </body>
 </html>
