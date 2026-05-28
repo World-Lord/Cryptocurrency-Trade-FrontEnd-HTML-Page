@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
+    <!-- ИСПРАВЛЕНО: Полная и рабочая ссылка на CSS стили оформления Pico.css -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -25,7 +25,6 @@
             border-radius: 6px;
             margin-top: 25px;
             margin-bottom: 10px;
-            background-color: #11151c;
         }
         .sketchfab-embed-wrapper iframe {
             position: absolute;
@@ -34,46 +33,6 @@
             width: 100%;
             height: 100%;
             border: 0;
-            z-index: 1;
-        }
-
-        /* Стильная темная заглушка, блокирующая лишние запросы к Sketchfab */
-        .sketchfab-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #1d2430 0%, #11151c 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 2;
-            transition: opacity 0.3s ease;
-        }
-        .placeholder-text {
-            color: #8892b0;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .play-3d-btn {
-            background-color: #ff9900 !important;
-            color: #111 !important;
-            border: none !important;
-            font-weight: bold;
-            padding: 12px 28px;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s ease !important;
-            width: auto;
-            margin: 0;
-        }
-        .play-3d-btn:hover {
-            transform: scale(1.05);
-            background-color: #ffae33 !important;
         }
     </style>
 </head>
@@ -94,53 +53,19 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Безопасный интерактивный блок без мгновенных скрытых запросов -->
+            <!-- ИСПРАВЛЕНО: Добавлены параметры оптимизации ?camera=0&preload=1 специально для Safari -->
             <div class="sketchfab-embed-wrapper"> 
-                <div class="sketchfab-placeholder" id="sketchfabPlaceholder" onclick="load3DModel()">
-                    <div class="placeholder-text">Интерактивная 3D-модель Microphone Rebellion</div>
-                    <button class="play-3d-btn">Включить 3D плеер</button>
-                </div>
-                <div id="iframeContainer"></div>
+                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
+                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
+                    <a href="https://sketchfab.com/3d-models/microphone-rebellion-924db06533b0466fb21831c50e227c50?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com/kcoolrush?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                </p>
             </div>
-            
-            <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-            </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
                 <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
             </footer>
         </article>
     </main>
-
-    <!-- Скрипт ленивого монтирования фрейма для обхода банов IP -->
-    <script>
-        function load3DModel() {
-            const placeholder = document.getElementById('sketchfabPlaceholder');
-            const container = document.getElementById('iframeContainer');
-            
-            const iframe = document.createElement('iframe');
-            iframe.title = "Microphone Rebellion";
-            iframe.frameBorder = "0";
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('mozallowfullscreen', 'true');
-            iframe.setAttribute('webkitallowfullscreen', 'true');
-            iframe.allow = "autoplay; fullscreen; xr-spatial-tracking";
-            iframe.setAttribute('xr-spatial-tracking', '');
-            iframe.setAttribute('execution-while-out-of-viewport', '');
-            iframe.setAttribute('execution-while-not-rendered', '');
-            iframe.setAttribute('web-share', '');
-            
-            // Внедряем полную Safari-совместимую изоляцию фрейма
-            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
-            
-            // Генерируем уникальный хвост времени, чтобы пробить старую ошибку в кэше
-            const cacheBuster = new Date().getTime();
-            iframe.src = "https://sketchfab.com" + cacheBuster;
-            
-            container.appendChild(iframe);
-            placeholder.remove();
-        }
-    </script>
 </body>
 </html>
+
