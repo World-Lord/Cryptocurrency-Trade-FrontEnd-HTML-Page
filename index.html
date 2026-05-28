@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
+    <!-- Возвращена полная и рабочая ссылка на CSS стили оформления -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -53,9 +53,12 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ВСТАВЛЕН ОРИГИНАЛЬНЫЙ BB-КОД -->
-            <div class="sketchfab-embed-wrapper" id="bbcode-container">
-                [sketchfab]924db06533b0466fb21831c50e227c50[/sketchfab] [url=https://sketchfab.com]Microphone Rebellion[/url] by [url=https://sketchfab.com]WORLD LORD[/url] on [url=https://sketchfab.com]Sketchfab[/url]
+            <!-- ИСПРАВЛЕНО: Безопасный эмбед твоей 3D-модели Microphone Rebellion -->
+            <div class="sketchfab-embed-wrapper"> 
+                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
+                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
+                    <a href="https://sketchfab.com/3d-models/microphone-rebellion-924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com/kcoolrush" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                </p>
             </div>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
@@ -63,50 +66,5 @@
             </footer>
         </article>
     </main>
-
-    <!-- Суверенный неуязвимый JS-парсер BB-кода -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const container = document.getElementById('bbcode-container');
-            if (!container) return;
-
-            // Извлекаем сырой HTML/текст из контейнера
-            let rawContent = container.innerHTML;
-
-            // Ищем подстроку между тегами [sketchfab] и [/sketchfab]
-            const startTag = "[sketchfab]";
-            const endTag = "[/sketchfab]";
-            
-            const startIndex = rawContent.indexOf(startTag);
-            const endIndex = rawContent.indexOf(endTag);
-
-            if (startIndex !== -1 && endIndex !== -1) {
-                // Извлекаем только то, что находится внутри тегов
-                const dirtyId = rawContent.substring(startIndex + startTag.length, endIndex);
-                
-                // Очищаем ID от любых не-буквенно-цифровых символов (вырезаем чистый хэш из 32 знаков)
-                const modelId = dirtyId.replace(/[^a-zA-Z0-9]/g, "").trim();
-
-                // Преобразуем BB-ссылки [url=...] в HTML
-                let cleanDescription = rawContent;
-                cleanDescription = cleanDescription.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;">$2</a>');
-                
-                // Полностью удаляем старый блок BB-тегов вместе с содержимым из подписи
-                const fullBbBlockRegex = /\[sketchfab\][\s\S]*?\[\/sketchfab\]/gi;
-                cleanDescription = cleanDescription.replace(fullBbBlockRegex, "").trim();
-
-                // Перезаписываем контейнер, генерируя фрейм с чистым ID и флагами аппаратного ускорения Chrome
-                container.innerHTML = `
-                    <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com{modelId}/embed?autostart=1"></iframe>
-                `;
-
-                // Выводим отформатированные ссылки подписи строго под плеером
-                const descParagraph = document.createElement('p');
-                descParagraph.style.cssText = "font-size: 13px; font-weight: normal; margin: 10px 5px; color: #8892b0;";
-                descParagraph.innerHTML = cleanDescription;
-                container.parentNode.insertBefore(descParagraph, container.nextSibling);
-            }
-        });
-    </script>
 </body>
 </html>
