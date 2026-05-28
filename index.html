@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
     
-    <!-- Максимально открытый CSP для обхода любых старых блокировок -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; media-src * data: blob:;">
+    <!-- Максимально безопасный автономный CSP, не требующий внешних медиа-ресурсов -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://jsdelivr.net; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://jsdelivr.net; img-src 'self' data:;">
 
     <!-- Полный путь к CSS-фреймворку Pico.css -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
+    <link rel="stylesheet" href="https://jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -19,41 +19,26 @@
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
         
-        /* Абсолютно новые имена классов для принудительного сброса CSS-кэша браузера */
-        .p2p-media-viewport {
+        /* Контейнер для интерактивного Canvas-модуля */
+        .p2p-canvas-viewport {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
             height: 0;
             overflow: hidden;
             max-width: 100%;
-            border: 2px dashed #ff9900; /* Временная яркая рамка, чтобы вы сразу увидели, что код обновился */
-            border-radius: 8px;
+            border: 1px solid #2f3b50;
+            border-radius: 6px;
             margin: 25px 0;
-            background: #11151c;
+            background: #0d1117;
         }
 
-        .p2p-media-viewport video {
+        .p2p-canvas-viewport canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            z-index: 5;
-        }
-
-        .p2p-media-loader {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #8892b0;
-            font-size: 14px;
-            z-index: 1;
+            display: block;
         }
     </style>
 </head>
@@ -74,18 +59,13 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- Полностью автономный блок, изолированный от серверов Sketchfab -->
-            <div class="p2p-media-viewport">
-                <div class="p2p-media-loader">Инициализация медиа-контента...</div>
-                <video autoplay loop muted playsinline>
-                    <!-- К URL видео добавлен динамический хвост-пустышка ?v=999 для обхода кэша прокси-серверов -->
-                    <source src="https://ftcdn.net" type="video/mp4">
-                    Ваш браузер не поддерживает видео.
-                </video>
+            <!-- Автономный интерактивный Canvas-блок -->
+            <div class="p2p-canvas-viewport">
+                <canvas id="p2pMatrixNet"></canvas>
             </div>
             
             <p style="font-size: 13px; font-weight: normal; margin-top: -10px; margin-bottom: 20px; color: #8892b0;"> 
-                <span style="font-weight: bold; color: #ff9900;">Microphone Rebellion</span> — Автономный концепт-визуализатор WORLD LORD P2P
+                <span style="font-weight: bold; color: #ff9900;">Decentralized Mesh-Net Visualizer</span> — Интерактивная модель распределенной P2P-сети узлов.
             </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
@@ -93,5 +73,106 @@
             </footer>
         </article>
     </main>
+
+    <!-- Скрипт генерации интерактивной P2P-сетки, реагирующей на мышь -->
+    <script>
+        const canvas = document.getElementById('p2pMatrixNet');
+        const ctx = canvas.getContext('2d');
+
+        // Установка реального разрешения с учетом контейнера
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight || (canvas.width * 0.5625);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const nodes = [];
+        const numNodes = 45;
+        const maxDistance = 90;
+        const mouse = { x: null, y: null, radius: 120 };
+
+        // Инициализация децентрализованных нод
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: (Math.random() - 0.5) * 0.8,
+                radius: Math.random() * 2 + 1.5
+            });
+        }
+
+        // Отслеживание курсора
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Основной цикл анимации
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Фон цифрового пространства
+            ctx.fillStyle = '#0f131a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Обновление и отрисовка нод
+            nodes.forEach(node => {
+                node.x += node.vx;
+                node.y += node.vy;
+
+                // Отскок от виртуальных стен
+                if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+                // Эффект притяжения к курсору
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - node.x;
+                    const dy = mouse.y - node.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        node.x += dx * 0.02;
+                        node.y += dy * 0.02;
+                    }
+                }
+
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff9900';
+                ctx.fill();
+            });
+
+            // Отрисовка распределенных P2P каналов (связей)
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        // Чем ближе ноды, тем ярче криптографический канал
+                        const alpha = (1 - dist / maxDistance) * 0.25;
+                        ctx.strokeStyle = `rgba(228, 231, 235, ${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>
+
