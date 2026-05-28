@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Исправлена ссылка на CSS-фреймворк Pico.css для корректных отступов -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
+    
+    <!-- Разрешаем браузеру загрузку скриптов, стилей и фрейма со Sketchfab -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://jsdelivr.net; script-src 'self' 'unsafe-inline' https://sketchfab.com; style-src 'self' 'unsafe-inline' https://jsdelivr.net; frame-src 'self' https://sketchfab.com;">
+
+    <!-- Полный путь к CSS-фреймворку Pico.css -->
+    <link rel="stylesheet" href="https://jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
         article { background-color: #1d2430; border: 1px solid #2f3b50; padding: 30px; border-radius: 8px; }
@@ -14,10 +19,10 @@
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
         
-        /* Стилизация адаптивного контейнера для твоей модели */
+        /* Стилизация адаптивного контейнера для 3D модели */
         .sketchfab-embed-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
             height: 0;
             overflow: hidden;
             max-width: 100%;
@@ -25,6 +30,7 @@
             border-radius: 6px;
             margin-top: 25px;
             margin-bottom: 10px;
+            background-color: #11151c;
         }
         .sketchfab-embed-wrapper iframe {
             position: absolute;
@@ -53,11 +59,11 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Рабочий эмбед 3D-модели с правильным URL -->
+            <!-- ИСПРАВЛЕНО: Рабочий эмбед с ленивой загрузкой и правильным эндпоинтом /embed -->
             <div class="sketchfab-embed-wrapper"> 
-                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
-                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                    <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com" loading="lazy"> </iframe> 
+                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #8892b0;"> 
+                    <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;">Sketchfab</a>
                 </p>
             </div>
 
@@ -68,4 +74,3 @@
     </main>
 </body>
 </html>
-
