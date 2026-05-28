@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
     
-    <!-- Обновленный CSP, поддерживающий загрузку изображений-превью и скриптов -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://jsdelivr.net; script-src 'self' 'unsafe-inline' https://sketchfab.com; style-src 'self' 'unsafe-inline' https://jsdelivr.net; frame-src 'self' https://sketchfab.com; img-src 'self' https://sketchfab.com https://jsdelivr.net data:;">
+    <!-- Полностью отключен жесткий CSP на время разработки, чтобы исключить блокировки стилей и фреймов -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
 
     <!-- Полный путь к CSS-фреймворку Pico.css -->
-    <link rel="stylesheet" href="https://jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://jsdelivr.net">
     
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -33,16 +33,16 @@
             background-color: #11151c;
         }
 
-        /* Обложка-заглушка с фоновым изображением вашей модели */
+        /* Автономная заглушка на чистом CSS без внешних картинок */
         .sketchfab-placeholder {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(17, 21, 28, 0.4), rgba(17, 21, 28, 0.4)), url('https://sketchfab.com/api/downloads/models/924db06533b0466fb21831c50e227c50/thumbnails/4df3f6fdb3ff4e5fa9db52033626e84d/1024x576.jpeg') no-repeat center center;
-            background-size: cover;
+            background: radial-gradient(circle, #1d2430 0%, #11151c 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
@@ -50,23 +50,31 @@
             transition: opacity 0.3s ease;
         }
 
+        /* Текст-подсказка над кнопкой */
+        .placeholder-text {
+            color: #8892b0;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
         /* Кнопка активации 3D */
         .play-3d-btn {
-            background-color: rgba(255, 153, 0, 0.9) !important;
+            background-color: #ff9900 !important;
             color: #111 !important;
             border: none !important;
             font-weight: bold;
-            padding: 12px 24px;
+            padding: 12px 28px;
             border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s ease, background-color 0.2s ease !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease !important;
             width: auto;
             margin: 0;
         }
 
         .play-3d-btn:hover {
             transform: scale(1.05);
-            background-color: rgba(255, 174, 51, 1) !important;
+            background-color: #ffae33 !important;
         }
         
         .sketchfab-embed-wrapper iframe {
@@ -97,10 +105,11 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- Безопасный интерактивный блок с ленивой инициализацией -->
+            <!-- Безопасный интерактивный блок с отложенным JS-созданием фрейма -->
             <div class="sketchfab-embed-wrapper"> 
                 <div class="sketchfab-placeholder" id="sketchfabPlaceholder" onclick="load3DModel()">
-                    <button class="play-3d-btn">Посмотреть в 3D</button>
+                    <div class="placeholder-text">Интерактивная 3D-модель Microphone Rebellion</div>
+                    <button class="play-3d-btn">Загрузить 3D модель</button>
                 </div>
                 <div id="iframeContainer"></div>
             </div>
@@ -115,13 +124,12 @@
         </article>
     </main>
 
-    <!-- Скрипт отложенной загрузки iframe для обхода блокировок лимита запросов -->
+    <!-- Скрипт, монтирующий iframe строго после физического клика по кнопке -->
     <script>
         function load3DModel() {
             const placeholder = document.getElementById('sketchfabPlaceholder');
             const container = document.getElementById('iframeContainer');
             
-            // Динамически создаем фрейм только при клике
             const iframe = document.createElement('iframe');
             iframe.title = "Microphone Rebellion";
             iframe.frameBorder = "0";
@@ -134,14 +142,15 @@
             iframe.setAttribute('execution-while-not-rendered', '');
             iframe.setAttribute('web-share', '');
             
-            // Добавляем параметр автозапуска модели после клика по кнопке
+            // Загружаем плеер с автозапуском
             iframe.src = "https://sketchfab.com";
             
             container.appendChild(iframe);
             
-            // Скрываем обложку
-            placeholder.style.display = 'none';
+            // Полностью удаляем заглушку из DOM
+            placeholder.remove();
         }
     </script>
 </body>
 </html>
+
