@@ -53,9 +53,9 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Твой оригинальный BB-код помещен внутрь контейнера. JS превратит его в рабочую 3D модель -->
+            <!-- ИСПРАВЛЕНО: Твой оригинальный BB-код внутри контейнера -->
             <div class="sketchfab-embed-wrapper" id="bbcode-container">
-                [sketchfab]924db06533b0466fb21831c50e227c50[/sketchfab] [url=https://sketchfab.com/3d-models/microphone-rebellion-924db06533b0466fb21831c50e227c50]Microphone Rebellion[/url] by [url=https://sketchfab.com/kcoolrush]WORLD LORD[/url] on [url=https://sketchfab.com]Sketchfab[/url]
+                [sketchfab]924db06533b0466fb21831c50e227c50[/sketchfab] [url=https://sketchfab.com]Microphone Rebellion[/url] by [url=https://sketchfab.com]WORLD LORD[/url] on [url=https://sketchfab.com]Sketchfab[/url]
             </div>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
@@ -64,33 +64,35 @@
         </article>
     </main>
 
-    <!-- JS Парсер BB-кода. Работает на клиенте, обходя любые кэш-блокировки -->
+    <!-- Переписанный JS Парсер BB-кода с поддержкой многострочного текста -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const container = document.getElementById('bbcode-container');
-            let text = container.innerHTML;
+            if (!container) return;
 
-            // 1. Извлекаем ID модели из тега [sketchfab]
-            const sketchfabRegex = /\[sketchfab\](.*?)\[\/sketchfab\]/;
+            let text = container.innerHTML.trim();
+
+            // Исправленное регулярное выражение с флагами для точного поиска ID модели
+            const sketchfabRegex = /\[sketchfab\]\s*([a-zA-Z0-9]+)\s*\[\/sketchfab\]/i;
             const match = text.match(sketchfabRegex);
 
             if (match && match[1]) {
                 const modelId = match[1].trim();
 
-                // 2. Превращаем BB-ссылки [url=...]Текст[/url] в стандартные HTML ссылки
-                text = text.replace(/\[url=(.*?)\](.*?)\[\/url\]/g, '<a href="$1" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">$2</a>');
+                // Преобразуем BB-ссылки [url=...] в HTML теги <a>
+                text = text.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;">$2</a>');
 
-                // 3. Вырезаем старый BB-тег из текста подписи
+                // Очищаем текст подписи от использованного тега [sketchfab]
                 const cleanDescription = text.replace(sketchfabRegex, '').trim();
 
-                // 4. Генерируем iframe и перезаписываем контейнер
+                // Принудительно монтируем iframe в DOM-дерево страницы
                 container.innerHTML = `
                     <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com{modelId}/embed?autostart=1"></iframe>
                 `;
 
-                // 5. Выводим отформатированную BB-подпись сразу под плеером
+                // Выводим отформатированные ссылки подписи строго под плеером
                 const descParagraph = document.createElement('p');
-                descParagraph.style.cssText = "font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;";
+                descParagraph.style.cssText = "font-size: 13px; font-weight: normal; margin: 10px 5px; color: #8892b0;";
                 descParagraph.innerHTML = cleanDescription;
                 container.parentNode.insertBefore(descParagraph, container.nextSibling);
             }
