@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Возвращена полная и рабочая ссылка на CSS стили оформления -->
+    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -53,13 +53,29 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Оригинальный iframe с параметрами сброса блокировки лимитов (?autostart=1&prevent_keep_alive=1&v=2026) -->
-            <div class="sketchfab-embed-wrapper"> 
-                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
-                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                    <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-                </p>
+            <!-- ИСПРАВЛЕНО: Фрейм теперь генерируется динамически с уникальным cache-buster токеном времени -->
+            <div class="sketchfab-embed-wrapper" id="embedWrapper"> 
+                <!-- Исполняемый JS-скрипт сформирует iframe с уникальным адресом здесь -->
+                <script>
+                    const wrapper = document.getElementById('embedWrapper');
+                    const iframe = document.createElement('iframe');
+                    iframe.title = "Microphone Rebellion";
+                    iframe.frameBorder = "0";
+                    iframe.allowFullscreen = true;
+                    iframe.setAttribute('mozallowfullscreen', 'true');
+                    iframe.setAttribute('webkitallowfullscreen', 'true');
+                    iframe.allow = "autoplay; fullscreen; xr-spatial-tracking";
+                    
+                    // Добавляем к ссылке текущую метку времени, чтобы Cloudflare и Sketchfab не выдавали старую заблокированную сессию
+                    const timestamp = new Date().getTime();
+                    iframe.src = `https://sketchfab.com{timestamp}`;
+                    
+                    wrapper.appendChild(iframe);
+                </script>
             </div>
+            <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
+                <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+            </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
                 <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
