@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Оригинальная рабочая ссылка на CSS стили оформления Pico.css -->
+    <!-- Возвращена полная и рабочая ссылка на CSS стили оформления -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -35,8 +35,6 @@
             border: 0;
         }
     </style>
-    <!-- Подключение официального безопасного загрузчика моделей Sketchfab -->
-    <script type="text/javascript" src="https://sketchfab.com"></script>
 </head>
 <body>
     <main class="container" style="margin-top: 5%;">
@@ -55,42 +53,18 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Безопасный контейнер для автоматической инициализации 3D-модели -->
+            <!-- ИСПРАВЛЕНО: Добавлен уникальный токен ?v=2026, который пробивает блокировки кеша Cloudflare -->
             <div class="sketchfab-embed-wrapper"> 
-                <iframe title="Microphone Rebellion" id="sketchfab-viewer" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share> </iframe> 
+                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com"> </iframe> 
+                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
+                    <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                </p>
             </div>
-            <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-            </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
                 <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
             </footer>
         </article>
     </main>
-
-    <!-- Скрипт, автоматически открывающий модель в обход ограничений на iframe -->
-    <script type="text/javascript">
-        const iframe = document.getElementById('sketchfab-viewer');
-        const uid = '924db06533b0466fb21831c50e227c50';
-        const client = new Sketchfab(iframe);
-
-        client.init(uid, {
-            success: function onSuccess(api) {
-                api.start();
-                api.addEventListener('viewerready', function() {
-                    console.log('3D-модель WorldLord успешно запущена.');
-                });
-            },
-            error: function onError() {
-                console.error('Ошибка инициализации Sketchfab API.');
-            },
-            autostart: 1,
-            preload: 1,
-            ui_controls: 1,
-            ui_infos: 0
-        });
-    </script>
 </body>
 </html>
-
