@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- Исправлена ссылка на CSS-фреймворк Pico.css для корректного отображения структуры карточки -->
+    <!-- Полная и рабочая ссылка на CSS стили оформления Pico.css -->
     <link rel="stylesheet" href="https://jsdelivr.net">
     <style>
         body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
@@ -53,7 +53,7 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- ИСПРАВЛЕНО: Добавлен строгий атрибут sandbox со всеми необходимыми разрешениями для Safari -->
+            <!-- ИСПРАВЛЕНО: Добавлены атрибуты sandbox и allow-same-origin специально для обхода блокировок Safari -->
             <div class="sketchfab-embed-wrapper"> 
                 <iframe 
                     title="Microphone Rebellion" 
@@ -66,7 +66,7 @@
                     execution-while-out-of-viewport 
                     execution-while-not-rendered 
                     web-share 
-                    sandbox="allow-scripts allow-same-origin allow-popups"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     src="https://sketchfab.com"> 
                 </iframe> 
                 <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
