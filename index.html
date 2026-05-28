@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldLord P2P — Суверенная платформа обмена</title>
     
-    <!-- Полностью отключен жесткий CSP на время разработки, чтобы исключить блокировки стилей и фреймов -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+    <!-- Максимально открытый CSP для обхода любых старых блокировок -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; media-src * data: blob:;">
 
     <!-- Полный путь к CSS-фреймворку Pico.css -->
     <link rel="stylesheet" href="https://jsdelivr.net">
@@ -19,71 +19,40 @@
         ul { padding-left: 20px; }
         li { margin-bottom: 10px; }
         
-        /* Стилизация адаптивного контейнера */
-        .sketchfab-embed-wrapper {
+        /* Абсолютно новые имена классов для принудительного сброса CSS-кэша браузера */
+        .p2p-media-viewport {
             position: relative;
-            padding-bottom: 56.25%; /* Соотношение сторон 16:9 */
+            padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             overflow: hidden;
             max-width: 100%;
-            border: 1px solid #2f3b50;
-            border-radius: 6px;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            background-color: #11151c;
+            border: 2px dashed #ff9900; /* Временная яркая рамка, чтобы вы сразу увидели, что код обновился */
+            border-radius: 8px;
+            margin: 25px 0;
+            background: #11151c;
         }
 
-        /* Автономная заглушка на чистом CSS без внешних картинок */
-        .sketchfab-placeholder {
+        .p2p-media-viewport video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #1d2430 0%, #11151c 100%);
+            object-fit: cover;
+            z-index: 5;
+        }
+
+        .p2p-media-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            z-index: 2;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Текст-подсказка над кнопкой */
-        .placeholder-text {
             color: #8892b0;
             font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        /* Кнопка активации 3D */
-        .play-3d-btn {
-            background-color: #ff9900 !important;
-            color: #111 !important;
-            border: none !important;
-            font-weight: bold;
-            padding: 12px 28px;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s ease !important;
-            width: auto;
-            margin: 0;
-        }
-
-        .play-3d-btn:hover {
-            transform: scale(1.05);
-            background-color: #ffae33 !important;
-        }
-        
-        .sketchfab-embed-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
             z-index: 1;
         }
     </style>
@@ -105,17 +74,18 @@
                 <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
             </ul>
 
-            <!-- Безопасный интерактивный блок с отложенным JS-созданием фрейма -->
-            <div class="sketchfab-embed-wrapper"> 
-                <div class="sketchfab-placeholder" id="sketchfabPlaceholder" onclick="load3DModel()">
-                    <div class="placeholder-text">Интерактивная 3D-модель Microphone Rebellion</div>
-                    <button class="play-3d-btn">Загрузить 3D модель</button>
-                </div>
-                <div id="iframeContainer"></div>
+            <!-- Полностью автономный блок, изолированный от серверов Sketchfab -->
+            <div class="p2p-media-viewport">
+                <div class="p2p-media-loader">Инициализация медиа-контента...</div>
+                <video autoplay loop muted playsinline>
+                    <!-- К URL видео добавлен динамический хвост-пустышка ?v=999 для обхода кэша прокси-серверов -->
+                    <source src="https://ftcdn.net" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
             </div>
             
-            <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #8892b0;"> 
-                <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;"> Microphone Rebellion </a> by <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;"> WORLD LORD </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #ff9900;">Sketchfab</a>
+            <p style="font-size: 13px; font-weight: normal; margin-top: -10px; margin-bottom: 20px; color: #8892b0;"> 
+                <span style="font-weight: bold; color: #ff9900;">Microphone Rebellion</span> — Автономный концепт-визуализатор WORLD LORD P2P
             </p>
 
             <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
@@ -123,34 +93,5 @@
             </footer>
         </article>
     </main>
-
-    <!-- Скрипт, монтирующий iframe строго после физического клика по кнопке -->
-    <script>
-        function load3DModel() {
-            const placeholder = document.getElementById('sketchfabPlaceholder');
-            const container = document.getElementById('iframeContainer');
-            
-            const iframe = document.createElement('iframe');
-            iframe.title = "Microphone Rebellion";
-            iframe.frameBorder = "0";
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('mozallowfullscreen', 'true');
-            iframe.setAttribute('webkitallowfullscreen', 'true');
-            iframe.allow = "autoplay; fullscreen; xr-spatial-tracking";
-            iframe.setAttribute('xr-spatial-tracking', '');
-            iframe.setAttribute('execution-while-out-of-viewport', '');
-            iframe.setAttribute('execution-while-not-rendered', '');
-            iframe.setAttribute('web-share', '');
-            
-            // Загружаем плеер с автозапуском
-            iframe.src = "https://sketchfab.com";
-            
-            container.appendChild(iframe);
-            
-            // Полностью удаляем заглушку из DOM
-            placeholder.remove();
-        }
-    </script>
 </body>
 </html>
-
