@@ -3,68 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorldLord P2P — Суверенная платформа обмена</title>
-    <!-- ИСПРАВЛЕНО: Полная и рабочая ссылка на CSS стили оформления Pico.css -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
+    <title>WorldLord P2P — 3D Viewer</title>
     <style>
-        body { background-color: #11151c; color: #e4e7eb; font-family: sans-serif; }
-        article { background-color: #1d2430; border: 1px solid #2f3b50; padding: 30px; border-radius: 8px; }
-        kbd { background-color: #ff9900; color: #111; font-weight: bold; padding: 4px 8px; }
-        a { color: #ff9900; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
-        
-        /* Стилизация адаптивного контейнера для твоей модели */
-        .sketchfab-embed-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
+        /* Полный сброс отступов для работы на весь экран */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            max-width: 100%;
-            border: 1px solid #2f3b50;
-            border-radius: 6px;
-            margin-top: 25px;
-            margin-bottom: 10px;
+            background-color: #11151c;
         }
+
+        /* Контейнер занимает 100% видимой области экрана */
+        .sketchfab-embed-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
         .sketchfab-embed-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: 0;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <main class="container" style="margin-top: 5%;">
-        <article>
-            <header>
-                <h1 style="color: #ff9900; margin-bottom: 5px;">⚡ WorldLord P2P</h1>
-                <small style="color: #8892b0;">Non-Custodial Bitcoin & Lightning Network Escrow</small>
-            </header>
-            
-            <h3 style="margin-top: 20px;">Платформа свободна от санкций, блокировок и цензуры</h3>
-            <p>Мы создаем легковесный, независимый P2P-сервис, работающий по открытым алгоритмам без кастодиальности. Ваши приватные ключи никогда не покинут ваш браузер.</p>
-            
-            <ul>
-                <li><strong>On-Chain эскроу:</strong> Мультисиг контракты 2-из-3 через легкие ноды Electrum.</li>
-                <li><strong>Lightning эскроу:</strong> Мгновенная заморозка через безопасные HODL-инвойсы.</li>
-                <li><strong>Абсолютная приватность:</strong> Хранение логов и чатов строго 1 месяц, жесткое сжатие фото карт и никаких проверок паспортов (No KYC).</li>
-            </ul>
 
-            <!-- РАБОЧИЙ КОД ТВОЕГО ЭМБЕДА SKETCHFAB -->
-            <div class="sketchfab-embed-wrapper"> 
-                <iframe title="Microphone Rebellion" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/924db06533b0466fb21831c50e227c50/embed"> </iframe> 
-                <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> 
-                    <a href="https://sketchfab.com/3d-models/microphone-rebellion-924db06533b0466fb21831c50e227c50?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Microphone Rebellion </a> by <a href="https://sketchfab.com/kcoolrush?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> WORLD LORD </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=924db06533b0466fb21831c50e227c50" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-                </p>
-            </div>
+    <!-- Встроенный чистый плеер твоей модели на весь экран -->
+    <div class="sketchfab-embed-wrapper"> 
+        <iframe 
+            title="Microphone Rebellion" 
+            frameborder="0" 
+            allowfullscreen 
+            mozallowfullscreen="true" 
+            webkitallowfullscreen="true" 
+            allow="autoplay; fullscreen; xr-spatial-tracking" 
+            xr-spatial-tracking 
+            execution-while-out-of-viewport 
+            execution-while-not-rendered 
+            web-share 
+            src="https://sketchfab.com"> 
+        </iframe> 
+    </div>
 
-            <footer style="margin-top: 30px; background: none; border: none; padding: 0;">
-                <kbd>СТАТУС: Проектирование бэкенда на Go + SQLite</kbd>
-            </footer>
-        </article>
-    </main>
 </body>
 </html>
